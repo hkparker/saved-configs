@@ -18,4 +18,4 @@ function parse_git_dirty {
 	[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
 }
 
-PS1='\[\033[1;35m\]\u@\h \[\033[0;34m\]\w\[\033[0m\]\[\033[0;36m\]$(parse_git_branch) \[\033[0;34m\]$\[\033[0m\] '
+PS1='\[\033[1;35m\]\u@\h \[\033[1;34m\]\w\[\033[0m\]\[\033[0;36m\]$(parse_git_branch) \[\033[1;34m\]$\[\033[0m\] '
