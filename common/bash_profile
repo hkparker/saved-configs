@@ -1,21 +1,36 @@
-# /etc/skel/.bash_profile
+##
+## Personalization and aliases
+##
 
-# This file is sourced by bash for login shells.  The following line
-# runs your .bashrc and is recommended by the bash info pages.
-if [[ -f ~/.bashrc ]] ; then
-	. ~/.bashrc
-fi
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export EDITOR=vim
 
 alias hack='docker run --net=host -t -i kalilinux/kali-linux-docker /bin/bash'
 
-function parse_git_branch {
-	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ \(\1$(parse_git_dirty)\)/";
-}
+##
+## Minimal PS1 with git branch and hints
+##
 
 function parse_git_dirty {
 	[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
 }
 
+function parse_git_branch {
+	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ \(\1$(parse_git_dirty)\)/";
+}
+
 PS1='\[\033[1;35m\]\u@\h \[\033[1;34m\]\w\[\033[0m\]\[\033[0;36m\]$(parse_git_branch) \[\033[1;34m\]$\[\033[0m\] '
+
+
+##
+## Programming languages
+##
+
+# Go
+
+export GOPATH=$HOME/Development/Go
+export PATH=$PATH:$GOPATH/bin
+
+
+# Ruby
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
