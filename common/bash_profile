@@ -4,7 +4,7 @@
 
 export EDITOR=vim
 
-alias hack='docker run --net=host -t -i kalilinux/kali-linux-docker /bin/bash'
+alias hack='docker run --net=host -t -i kali-full /bin/bash'
 
 ##
 ## Minimal PS1 with git branch and hints
