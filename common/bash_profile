@@ -12,9 +12,24 @@ alias hack='docker run --net=host -t -i kali-full /bin/bash'
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+CYAN='\033[0;36m'
 TEAL='\033[1;36m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
+
+function git_open {
+	if [ -d ".git" ];
+		then
+			echo -n -e " ${CYAN}("
+	fi
+}
+
+function git_close {
+	if [ -d ".git" ];
+		then
+			echo -n -e "${CYAN})${NC} "
+	fi
+}
 
 function git_branch {
 	echo -n $(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ \1/")
@@ -52,15 +67,17 @@ function git_commit_distance {
 }
 
 function git_stuff {
+	git_open
 	git_branch
 	git_untracked
 	git_unstaged
 	git_staging
 	git_commit_distance
+	git_close
 	echo
 }
 
-PS1='\[\033[1;35m\]\u@\h \[\033[1;34m\]\w\[\033[0m\]\[\033[0;36m\] ($(git_stuff)\[\033[0;36m\]) \[\033[1;34m\]$\[\033[0m\] '
+PS1='\[\033[1;35m\]\u@\h \[\033[1;34m\]\w\[\033[0m\]$(git_stuff)\[\033[0;36m\]\[\033[1;34m\]$\[\033[0m\] '
 
 
 ##
