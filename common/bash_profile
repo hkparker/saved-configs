@@ -21,18 +21,9 @@ function git_open {
 	if [[ $(git branch 2> /dev/null) != '' ]]
 		then
 			echo -n -e " ${CYAN}("
+			echo -n $(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ \1/")
+			echo -n -e "${NC}"
 	fi
-}
-
-function git_close {
-	if [[ $(git branch 2> /dev/null) != '' ]]
-		then
-			echo -n -e "${CYAN})${NC} "
-	fi
-}
-
-function git_branch {
-	echo -n $(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ \1/")
 }
 
 function git_untracked {
@@ -66,9 +57,15 @@ function git_commit_distance {
 	fi
 }
 
+function git_close {
+	if [[ $(git branch 2> /dev/null) != '' ]]
+		then
+			echo -n -e "${CYAN})${NC} "
+	fi
+}
+
 function git_stuff {
 	git_open
-	git_branch
 	git_untracked
 	git_unstaged
 	git_staging
@@ -78,7 +75,6 @@ function git_stuff {
 }
 
 PS1='\[\033[1;35m\]\u@\h \[\033[1;34m\]\w\[\033[0m\]$(git_stuff)\[\033[0;36m\]\[\033[1;34m\]$\[\033[0m\] '
-
 
 ##
 ## Programming languages
